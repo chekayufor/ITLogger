@@ -1,41 +1,47 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import Moment from 'react-moment';
 import { connect } from 'react-redux';
-import LogItem from './LogItem';
-import Preloader from '../layout/Preloader';
 import PropTypes from 'prop-types';
-import { getLogs } from '../../actions/logActions';
+import { deleteLog, setCurrent } from '../../actions/logActions';
 
-const Logs = ({ log: { logs, loading }, getLogs }) => {
-  useEffect(() => {
-    getLogs();
-    // eslint-disable-next-line
-  }, []);
+import M from 'materialize-css/dist/js/materialize.min.js';
 
-  if (loading || logs === null) {
-    return <Preloader />;
-  }
+const LogItem = ({ log, deleteLog, setCurrent }) => {
+  const onDelete = () => {
+    deleteLog(log.id);
+    M.toast({ html: 'Log Deleted' });
+  };
 
   return (
-    <ul className="collection with-header">
-      <li className="collection-header">
-        <h4 className="center">System Logs</h4>
-      </li>
-      {!loading && logs.length === 0 ? (
-        <p className="center">No logs to show...</p>
-      ) : (
-        logs.map(log => <LogItem log={log} key={log.id} />)
-      )}
-    </ul>
+    <li className="collection-item">
+      <div>
+        <a
+          href="#edit-log-modal"
+          className={`modal-trigger ${
+            log.attention ? 'red-text' : 'blue-text'
+          }`}
+          onClick={() => setCurrent(log)}
+        >
+          {log.message}
+        </a>
+        <br />
+        <span className="grey-text">
+          <span className="black-text">ID #{log.id}</span> last updated by{' '}
+          <span className="black-text">{log.tech}</span> on{' '}
+          <Moment format="MMMM Do YYYY, h:mm:ss a">{log.date}</Moment>
+        </span>
+        <a href="#!" onClick={onDelete} className="secondary-content">
+          <i className="material-icons grey-text">delete</i>
+        </a>
+      </div>
+    </li>
   );
 };
 
-Logs.propTypes = {
+LogItem.propTypes = {
   log: PropTypes.object.isRequired,
-  getLogs: PropTypes.func.isRequired
+  deleteLog: PropTypes.func.isRequired,
+  setCurrent: PropTypes.func.isRequired
 };
 
-const mapStateToProps = state => ({
-  log: state.log
-});
-
-export default connect(mapStateToProps, { getLogs })(Logs);
+export default connect(null, { deleteLog, setCurrent })(LogItem);

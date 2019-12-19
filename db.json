@@ -2,10 +2,10 @@
   "logs": [
     {
       "id": 1,
-      "message": " Changed hard drive on workstation 005",
-      "attention": false,
-      "date": "03-02-2019",
-      "tech": "Sam Smith"
+      "message": " Changed hard drive on workstation 005nn",
+      "attention": true,
+      "tech": "Sara Wilson",
+      "date": "2019-12-19T09:14:46.880Z"
     },
     {
       "id": 2,
@@ -32,16 +32,6 @@
       "id": 2,
       "firstName": "Sam",
       "lastName": "Smith"
-    },
-    {
-      "id": 3,
-      "firstName": "Sara",
-      "lastName": "Wilson"
-    },
-    {
-      "firstName": "Jenifer",
-      "lastName": "Williams",
-      "id": 4
     }
   ]
 }
